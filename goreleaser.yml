@@ -1,0 +1,29 @@
+# goreleaser.yml
+version: 2
+project_name: ipwho
+
+builds:
+  - binary: ipwho
+    main: ./main.go
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags: "-s -w"
+
+archives:
+  - format: tar.gz
+    wrap_in_directory: true
+    name_template: '{{ .ProjectName }}_{{ if eq .Os "darwin" }}macOS{{ else }}{{ .Os }}{{ end }}_{{ .Arch }}_{{ .Version }}'
+
+checksum:
+  name_template: "checksums.txt"
+
+release:
+  github:
+    owner: extractip
+    name: ipwho
+  disable: true
