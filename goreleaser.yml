@@ -15,7 +15,7 @@ builds:
     ldflags: "-s -w"
 
 archives:
-  - format: tar.gz
+  - formats: [ tar.gz ]
     wrap_in_directory: true
     name_template: '{{ .ProjectName }}_{{ if eq .Os "darwin" }}macOS{{ else }}{{ .Os }}{{ end }}_{{ .Arch }}_{{ .Version }}'
 
@@ -26,4 +26,3 @@ release:
   github:
     owner: extractip
     name: ipwho
-  disable: true

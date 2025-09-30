@@ -13,34 +13,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var verbose bool
-var jsonOut bool
-
-var rootCmd = &cobra.Command{
-	Use:   "ipwho [ip]",
-	Short: "ipwho - CLI tool to get the country of an IP address",
-	Long:  "ipwho is a lightweight CLI tool, similar to whois, but focused on detecting the country (and extended details) of an IP address via ExtractIP API.",
-	Args:  cobra.ExactArgs(1),
+var lookupCmd = &cobra.Command{
+	Use:   "lookup",
+	Short: "Lookup exit IP address",
+	Long:  "Query ExtractIP API to resolve the exit IP address.",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		ip := args[0]
-		return lookupIP(ip)
+		return lookupHost()
 	},
 }
 
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-}
-
 func init() {
-	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Show detailed information in table format")
-	rootCmd.PersistentFlags().BoolVar(&jsonOut, "json", false, "Output the result in JSON format")
+	lookupCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Show detailed information in table format")
+	lookupCmd.PersistentFlags().BoolVar(&jsonOut, "json", false, "Output the result in JSON format")
+
+	rootCmd.AddCommand(lookupCmd)
 }
 
-func lookupIP(ip string) error {
-	url := "https://api.extractip.com/geolocate/" + ip
+func lookupHost() error {
+	url := "https://api.extractip.com/geolocate"
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return err
@@ -97,11 +87,11 @@ func lookupIP(ip string) error {
 		return nil
 	}
 
-	// Default: just country name
-	if parsed.CountryName != "" {
-		fmt.Println(parsed.CountryName)
+	// Default: just IP address
+	if parsed.ExitIP != "" {
+		fmt.Println(parsed.ExitIP)
 	} else {
-		fmt.Println("Country not found in response")
+		fmt.Println("IP address not found in response")
 	}
 	return nil
 }
