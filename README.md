@@ -51,7 +51,7 @@ Now the utility is available globally as `ipwho`.
   Time Zone:     America/Los_Angeles
   Currency:      USD
   Domain:        google.com
-  Flag URL:      https://flags.example/us.png
+  Flag URL:      https://api.extractip.com/flags/3x2/US.svg
   Domains:       google.com, youtube.com
   Call Codes:    +1
   ```
@@ -72,7 +72,7 @@ Now the utility is available globally as `ipwho`.
     "time_zone": "America/Los_Angeles",
     "currency": "USD",
     "domain_name": "google.com",
-    "flag_url": "https://flags.example/us.png",
+    "flag_url": "[https://flags.example/us.png](https://api.extractip.com/flags/3x2/US.svg)",
     "domains": ["google.com", "youtube.com"],
     "call_codes": ["+1"]
   }
